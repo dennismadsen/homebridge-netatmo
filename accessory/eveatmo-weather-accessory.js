@@ -29,10 +29,9 @@ module.exports = function(pHomebridge) {
 
 			var accessoryConfig = {
 				"id": deviceData._id,
-				"model": "Eve Weather",
 				"netatmoType": deviceData.type,
 				"firmware": String(deviceData.firmware),
-				"name": deviceData._name || "Eveatmo " + netatmoDevice.deviceType + " " + deviceData._id,
+				"name": deviceData._name || "Netatmo " + netatmoDevice.deviceType + " " + deviceData._id,
 				"hasBattery": (deviceData.battery_vp)?true:false,
 			};
 
