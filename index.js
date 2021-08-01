@@ -4,7 +4,7 @@ var async = require('async');
 
 module.exports = function(pHomebridge) {
 	homebridge = pHomebridge;
-	homebridge.registerPlatform("homebridge-eveatmo", "eveatmo", EveatmoPlatform);
+	homebridge.registerPlatform("homebridge-netatmo", "netatmo", EveatmoPlatform);
 };
 
 var netatmo = require("netatmo");

@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "eveatmo",
+  "pluginAlias": "netatmo",
   "pluginType": "platform",
   "singular": true,
   "headerDisplay": "Homebridge plugin for the Netatmo Weatherstation",
@@ -10,7 +10,7 @@
       "name": {
         "title": "Name",
         "type": "string",
-        "default": "eveatmo platform",
+        "default": "Netatmo",
         "required": true
       },
       "ttl": {
