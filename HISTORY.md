@@ -1,10 +1,29 @@
 ## version history
 
+### 1.1.0
+- allows new auth method (via refreshtoken) and old one (via password)
+  - added config-schema to configure this via UI   
+- refreshtokens are fetched 5min earlier to do not run into auth problems
+  - Added retry on failed refreshtoken-fetch
+
+### 1.0.1
+- Thanks to a PR (https://github.com/skrollme/homebridge-eveatmo/pull/65) from @smhex:
+  - Logging of "fetching weatherdata" is not configurable
+
+### 1.0.0
+- Major version release to reflect breaking change in 0.7.0
+
+### 0.7.0
+- Switched to a different authentication-mechanism because Netatmo plans to deprecate the old username/password-authentication ([#62](/../../issues/62))
+
+### 0.6.5
+- Added max. wind-strength (gust) to wind-accessory ([#59](/../../issues/59))
+
 ### 0.6.4
 - Updated fakegato-plugin to 0.6.1
 
 ### 0.6.3
-- Homebridge 1.3 compatibility (#56)
+- Homebridge 1.3 compatibility ([#56](/../../issues/56))
 
 ### 0.6.2
 - Thanks to a PR (https://github.com/skrollme/homebridge-eveatmo/pull/54) from @RyanHS7VM:
@@ -40,10 +59,10 @@
 - added a config option which prevents the netatmo's devicename to be prepended and instead appends a configurable name to the modules
 
 ### 0.4.3
-- added configuration-option to override the alert-state threshold for the extra co2-sensors (#24)
+- added configuration-option to override the alert-state threshold for the extra co2-sensors ([#24](/../../issues/24))
 
 ### 0.4.2
-- hopefully fixed a problem which caused the low-battery warning to persist even after replacing the module's battery (#21)
+- hopefully fixed a problem which caused the low-battery warning to persist even after replacing the module's battery ([#21](/../../issues/21))
 
 ### 0.4.1
 - setting min value for co2 for investigating history gaps
@@ -56,7 +75,7 @@
 - changed polling mechanism to prevent deadlocks on netatmo API errors 
 
 ### 0.3.6
-- fixed bug were zero-measurement-values were not applied to characteristics (#15)
+- fixed bug were zero-measurement-values were not applied to characteristics ([#15](/../../issues/15))
 - switched to default history length and timer-handling
 
 ### 0.3.5

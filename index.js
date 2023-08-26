@@ -7,7 +7,7 @@ module.exports = function(pHomebridge) {
 	homebridge.registerPlatform("homebridge-netatmo", "netatmo", EveatmoPlatform);
 };
 
-var netatmo = require("netatmo");
+var netatmo = require("./lib/netatmo-api");
 var inherits = require('util').inherits;
 
 class EveatmoPlatform {
@@ -21,6 +21,7 @@ class EveatmoPlatform {
         this.config.co2_alert_threshold = typeof config.co2_alert_threshold !== 'undefined' ? parseInt(config.co2_alert_threshold) : 1000;
 
 		this.config.module_suffix = typeof config.module_suffix !== 'undefined' ? config.module_suffix : '';
+        this.config.log_info_msg = typeof config.log_info_msg !== 'undefined' ? Boolean(config.log_info_msg) : true;
 
 		// If this log message is not seen, most likely the config.js is not found.
 		this.log.debug('Creating EveatmoPlatform');
@@ -29,7 +30,25 @@ class EveatmoPlatform {
 			this.log.warn('CAUTION! USING FAKE NETATMO API: ' + config.mockapi);
 			this.api = require("./lib/netatmo-api-mock")(config.mockapi);
 		} else {
-			this.api = new netatmo(config.auth);
+			this.config.auth.grant_type = typeof config.auth.grant_type !== 'undefined' ? config.auth.grant_type : 'refresh_token';
+
+			if (this.config.auth.grant_type == 'refresh_token') {
+				if (config.auth.username || config.auth.password) {
+					throw new Error("'username' and 'password' are not used in grant_type 'refresh_token'");
+				} else if (!config.auth.refresh_token) {
+					throw new Error("'refresh_token' not set");
+				}
+				this.log.info("Authenticating using 'refresh_token' grant");
+			} else if (this.config.auth.grant_type == 'password') {
+				if (!config.auth.username || !config.auth.password) {
+					throw new Error("'username' and 'password' are mandatory when using grant_type 'password'");
+				}
+				this.log.info("Authenticating using 'password' grant");
+			} else  {
+				throw new Error("Unsupported grant_type. Please use 'password' or 'refresh_token'");
+			}
+
+			this.api = new netatmo(this.config.auth, homebridge);
 		}
 		this.api.on("error", function(error) {
 			this.log.error('ERROR - Netatmo: ' + error);
